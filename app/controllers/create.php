@@ -12,11 +12,10 @@ class Create extends Controller {
         $username = $_POST['username'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        if (empty($username) || empty($password)) {
-            $_SESSION['registerError'] = "All fields are required.";
-            header("Location: /create");
-            exit;
-        }
+      if (empty($username) || empty($password) || strlen($password) < 8) {
+          $_SESSION['registerError'] = "All fields are required and password must be at least 8 characters.";
+          header("Location: /create");
+          exit;
 
         require_once 'app/models/User.php';
         $user = new User();
@@ -26,4 +25,5 @@ class Create extends Controller {
         header("Location: /login");
         exit;
     }
+}
 }
