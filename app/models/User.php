@@ -7,7 +7,6 @@ class User {
     public $auth = false;
 
     public function __construct() {
-
     }
 
     public function test () {
@@ -19,10 +18,6 @@ class User {
     }
 
     public function authenticate($username, $password) {
-        /*
-         * if username and password good then
-         * $this->auth = true;
-         */
         $username = strtolower($username);
         $db = db_connect();
         $statement = $db->prepare("select * from users WHERE username = :name;");
@@ -30,7 +25,6 @@ class User {
         $statement->execute();
         $rows = $statement->fetch(PDO::FETCH_ASSOC);
 
-        
         if (isset($_SESSION['lockout'])) {
             if (time() < $_SESSION['lockout']) {
                 $remaining = $_SESSION['lockout'] - time();
@@ -55,7 +49,6 @@ class User {
             }
         }
 
-        
         if (password_verify($password, $rows['password'])) {
             $_SESSION['auth'] = 1;
             $_SESSION['username'] = ucwords($username);
@@ -64,7 +57,6 @@ class User {
             header('Location: /home');
             die;
         } else {
-            
             if (isset($_SESSION['failedAuth'])) {
                 $_SESSION['failedAuth']++;
                 if ($_SESSION['failedAuth'] >= 3) {
@@ -94,5 +86,15 @@ class User {
             header('Location: /login');
             die;
         }
+    }
+
+    public function create($username, $password) {
+        $username = strtolower($username);
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $db = db_connect();
+        $statement = $db->prepare("INSERT INTO users (username, password) VALUES (:username, :password)");
+        $statement->bindValue(':username', $username);
+        $statement->bindValue(':password', $hashedPassword);
+        $statement->execute();
     }
 }

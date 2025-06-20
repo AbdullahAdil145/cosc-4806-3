@@ -30,7 +30,11 @@
 														<input required type="password" class="form-control" name="password">
 												</div>
 												<br>
-												<button type="submit" class="btn btn-primary">Login</button>
+											<div class="d-flex gap-2">
+													<button type="submit" class="btn btn-primary">Login</button>
+													<a href="/create" class="btn btn-primary">Register</a>
+											</div>
+
 										</fieldset>
 								</form>
 						</div>
