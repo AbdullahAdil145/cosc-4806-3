@@ -63,3 +63,57 @@ nav {
 .logout-button:hover {
   background-color: #0056b3;
 }
+
+.about-wrapper {
+  max-width: 800px;
+  margin: 60px auto;
+  text-align: center;
+  padding: 20px;
+}
+
+.about-heading {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+}
+
+.about-heading span {
+  color: #007bff;
+}
+
+.about-subheading {
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+  color: #444;
+}
+
+.about-img {
+  width: 180px;
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.about-links {
+  margin: 20px 0;
+}
+
+.about-links .button {
+  display: inline-block;
+  margin: 5px;
+  padding: 10px 18px;
+  background-color: #007bff;
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.about-links .button:hover {
+  background-color: #0056b3;
+}
+
+.about-text {
+  margin: 20px auto;
+  line-height: 1.6;
+  color: #333;
+  text-align: left;
+}
