@@ -24,11 +24,11 @@
                             <input required type="text" class="form-control" name="username">
                         </div>
                         <div class="form-group">
-                            <small class="form-text text-muted" style="margin-bottom: 4px;">Password must be at least 8 characters.</small>
                             <label for="password">Password</label>
+                            <small class="form-text text-muted" style="margin-top: -4px; margin-bottom: 6px;">(Password must be at least 8 characters)</small>
                             <input required type="password" class="form-control" name="password" minlength="8">
-
                         </div>
+
                         <br>
                         <button type="submit" class="btn btn-primary">Register</button>
                     </fieldset>
