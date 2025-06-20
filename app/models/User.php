@@ -18,33 +18,64 @@ class User {
       return $rows;
     }
 
-    public function authenticate($username, $password) {
-        /*
-         * if username and password good then
-         * $this->auth = true;
-         */
-		$username = strtolower($username);
-		$db = db_connect();
-        $statement = $db->prepare("select * from users WHERE username = :name;");
-        $statement->bindValue(':name', $username);
-        $statement->execute();
-        $rows = $statement->fetch(PDO::FETCH_ASSOC);
-		
-		if (password_verify($password, $rows['password'])) {
-			$_SESSION['auth'] = 1;
-			$_SESSION['username'] = ucwords($username);
-			unset($_SESSION['failedAuth']);
-			header('Location: /home');
-			die;
-		} else {
-			if(isset($_SESSION['failedAuth'])) {
-				$_SESSION['failedAuth'] ++; //increment
-			} else {
-				$_SESSION['failedAuth'] = 1;
-			}
-			header('Location: /login');
-			die;
-		}
+public function authenticate($username, $password) {
+    /*
+     * if username and password good then
+     * $this->auth = true;
+     */
+    $username = strtolower($username);
+    $db = db_connect();
+    $statement = $db->prepare("select * from users WHERE username = :name;");
+    $statement->bindValue(':name', $username);
+    $statement->execute();
+    $rows = $statement->fetch(PDO::FETCH_ASSOC);
+
+    if (isset($_SESSION['lockout']) && time() < $_SESSION['lockout']) {
+        $remaining = $_SESSION['lockout'] - time();
+        echo "You have made 3 wrong attempts. Please wait $remaining seconds.";
+        echo "<script>
+                setTimeout(function() {
+                    window.location.href = '/login';
+                }, " . ($remaining * 1000) . ");
+              </script>";
+        die;
     }
 
+    if (password_verify($password, $rows['password'])) {
+        $_SESSION['auth'] = 1;
+        $_SESSION['username'] = ucwords($username);
+        unset($_SESSION['failedAuth']);
+        unset($_SESSION['lockout']);
+        header('Location: /home');
+        die;
+    } else {
+        if(isset($_SESSION['failedAuth'])) {
+            $_SESSION['failedAuth']++;
+            if($_SESSION['failedAuth'] >= 3) {
+                $_SESSION['lockout'] = time() + 60;
+              $remaining = 60;
+              echo "<div id='lockoutMsg'>You have made 3 wrong attempts. Please wait <span id='countdown'>$remaining</span> seconds.</div>";
+              echo "<script>
+                  var remaining = $remaining;
+                  var countdownEl = document.getElementById('countdown');
+                  var interval = setInterval(function() {
+                      remaining--;
+                      if (remaining <= 0) {
+                          clearInterval(interval);
+                          window.location.href = '/login';
+                      } else {
+                          countdownEl.textContent = remaining;
+                      }
+                  }, 1000);
+              </script>";
+
+                die;
+            }
+        } else {
+            $_SESSION['failedAuth'] = 1;
+        }
+        header('Location: /login');
+        die;
+    }
+}
 }
