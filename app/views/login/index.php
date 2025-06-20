@@ -16,6 +16,11 @@
 								echo "<p style='color:red; font-weight:bold;'>" . $_SESSION['loginError'] . "</p>";
 								unset($_SESSION['loginError']);
 						}
+						if (isset($_SESSION['registerSuccess'])) {
+							echo "<p style='color:green; font-weight:bold;'>" . $_SESSION['registerSuccess'] . "</p>";
+							unset($_SESSION['registerSuccess']);
+					}
+
 						?>
 
 						<div style="margin-bottom: 40px;">

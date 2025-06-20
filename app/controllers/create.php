@@ -22,6 +22,7 @@ class Create extends Controller {
         $user = new User();
         $user->create($username, $password);
 
+        $_SESSION['registerSuccess'] = "Successfully Registered.";
         header("Location: /login");
         exit;
     }
