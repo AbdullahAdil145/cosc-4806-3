@@ -50,6 +50,10 @@ class User {
         }
 
         if (password_verify($password, $rows['password'])) {
+            $log = $db->prepare("INSERT INTO logins (username, attempt, time) VALUES (:username, 'good', NOW())");
+            $log->bindValue(':username', $username);
+            $log->execute();
+
             $_SESSION['auth'] = 1;
             $_SESSION['username'] = ucwords($username);
             unset($_SESSION['failedAuth']);
@@ -57,6 +61,10 @@ class User {
             header('Location: /home');
             die;
         } else {
+            $log = $db->prepare("INSERT INTO logins (username, attempt, time) VALUES (:username, 'bad', NOW())");
+            $log->bindValue(':username', $username);
+            $log->execute();
+
             if (isset($_SESSION['failedAuth'])) {
                 $_SESSION['failedAuth']++;
                 if ($_SESSION['failedAuth'] >= 3) {
