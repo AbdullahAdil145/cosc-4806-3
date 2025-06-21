@@ -23,7 +23,10 @@ if (!isset($_SESSION['auth'])) {
             <div class="nav-right">
                 <a href="/home">Home</a>
                 <a href="/about">About Me</a>
-                <a href="#" style="pointer-events: none; opacity: 0.5;">Disabled</a>
+                <a href="/blog">Blog</a>
+                <a href="/blog">Publications</a>
+
+
             </div>
         </div>
     </nav>
