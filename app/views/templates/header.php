@@ -24,7 +24,7 @@ if (!isset($_SESSION['auth'])) {
                 <a href="/home">Home</a>
                 <a href="/about">About Me</a>
                 <a href="/blog">Blog</a>
-                <a href="/blog">Publications</a>
+                <a href="/logout">Logout</a>
 
 
             </div>
